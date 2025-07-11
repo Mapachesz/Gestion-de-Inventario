@@ -28,4 +28,5 @@ build/
 *.sqlite3
 *.db
 
-# Archivos
+# Datos sensibles
+.env
