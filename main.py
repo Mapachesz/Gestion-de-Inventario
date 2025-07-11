@@ -1,5 +1,5 @@
 from models.product_model import Producto
-from services.product_services import agregar_producto
+from services.product_services import agregar_producto,editar_producto
 
 def main():
     print("Corriendo...")
