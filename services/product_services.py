@@ -2,6 +2,8 @@ from config.db_config import get_connection
 from models.product_model import Producto
 from datetime import date
 
+conn = get_connection()
+
 def agregar_producto(producto: Producto):
     """
     Inserta un nuevo producto en la tabla 'productos'.
@@ -27,7 +29,6 @@ def agregar_producto(producto: Producto):
         producto.fecha_ingreso or date.today()
     )
 
-    conn = get_connection()
     if not conn:
         return None
 
@@ -74,7 +75,6 @@ def editar_producto(producto: Producto):
         producto.codigo  # este va al final para el WHERE
     )
 
-    conn = get_connection()
     if not conn:
         return None
 
@@ -94,3 +94,31 @@ def editar_producto(producto: Producto):
         return None
     finally:
         conn.close()
+
+def eliminar_producto(codigo: str) -> bool:
+    """
+    Elimina un producto de la base de datos según su código.
+
+    Parámetros:
+        codigo (str): Código del producto a eliminar.
+
+    Retorna:
+        bool: True si se eliminó, False si no se encontró o falló.
+    """
+    query = "DELETE FROM productos WHERE codigo = %s RETURNING codigo;"
+
+    if not conn:
+        return False
+
+    try:
+        with conn:
+            with conn.cursor() as cursor:
+                cursor.execute(query, (codigo,))
+                resultado = cursor.fetchone()
+                return resultado is not None
+    except Exception as e:
+        print(f"❌ Error al eliminar producto: {e}")
+        return False
+    finally:
+        conn.close()
+
