@@ -1,6 +1,10 @@
 from config.db_config import get_connection
 from models.product_model import Producto
+from models.movimientos_model import Movimientos
+from models.sub_compra_model import Sub_compra
+from models.clientes_model import Clientes
 from datetime import date
+from typing import List
 
 def agregar_producto(producto: Producto):
     """
