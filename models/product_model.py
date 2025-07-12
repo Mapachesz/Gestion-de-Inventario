@@ -9,3 +9,4 @@ class Producto(BaseModel):
     stock: int = Field(..., ge=0)
     precio_unitario: float = Field(..., gt=0)
     fecha_ingreso: Optional[date] = None
+
